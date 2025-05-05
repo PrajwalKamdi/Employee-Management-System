@@ -12,6 +12,7 @@ import Employees from "../components/Pages/Employees";
 import Update from "../components/Pages/Update";
 import Login from "../components/Auth/Login";
 import Sign_up from "../components/Auth/Sign_up";
+import Profile from "../components/Auth/Profile";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,8 @@ const router = createBrowserRouter(
       <Route path="/update/:id" element={<Update />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Sign_up />} />
+      <Route path="/profile" element={<Profile/>} />
+
     </Route>
   )
 );

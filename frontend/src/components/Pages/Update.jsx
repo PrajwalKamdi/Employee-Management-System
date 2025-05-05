@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { handleError, handleSuccess } from "./Toast";
 const Update = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const [formData, setFormData] = useState({
     employeeId: "",
     name: "",
@@ -22,9 +26,12 @@ const Update = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`${url}update/${id}`, formData)
+      .put(`${url}update/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
-        console.log("Employee added successfully:", response.data);
         setFormData({
           employeeId: "",
           name: "",
@@ -37,14 +44,21 @@ const Update = () => {
         });
       })
       .catch((err) => {
-        console.error("Error adding employee:", err);
-        setError(err.response.data.message);
-        console.log(error);
+        handleError(err.response.data.message);
       });
+    handleSuccess("Employee Updated Successfully!");
+    setTimeout(() => {
+    navigate("/employees");
+      
+    }, 1500);
   };
   const fetchEmployee = async () => {
     try {
-      const response = await axios.get(`${url}getemployee/${id}`);
+      const response = await axios.get(`${url}getemployee/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setFormData({
         employeeId: response.data.employee.employeeId,
         name: response.data.employee.name,
@@ -55,9 +69,8 @@ const Update = () => {
         department: response.data.employee.department,
         salary: response.data.employee.salary,
       });
-    } catch (error) {
-      setError(error.message);
-      console.error("Error fetching employee:", error);
+    } catch (err) {
+      handleError(err.response.data.message);
     }
   };
   useEffect(() => {
@@ -88,6 +101,7 @@ const Update = () => {
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={formData.employeeId}
             onChange={handleChange}
+            required
           />
         </div>
         <div>
@@ -98,6 +112,7 @@ const Update = () => {
             value={formData.name}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
         <div>
@@ -108,6 +123,7 @@ const Update = () => {
             value={formData.email}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
         <div>
@@ -118,6 +134,7 @@ const Update = () => {
             value={formData.phoneNumber}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
         <div>
@@ -128,6 +145,7 @@ const Update = () => {
             value={formData.address}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
         <div>
@@ -138,6 +156,7 @@ const Update = () => {
             value={formData.position}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
         <div>
@@ -148,6 +167,7 @@ const Update = () => {
             value={formData.department}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
         <div>
@@ -158,14 +178,16 @@ const Update = () => {
             value={formData.salary}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           />
         </div>
         <button
           type="submit"
-          className="col-span-2 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-500 text-white hover:bg-blue-600 transition duration-200 mt-4"
+          className="font-bold col-span-2 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-500 text-white hover:bg-blue-600 transition duration-200 mt-4"
         >
-          Add Employee
+          Update Employee
         </button>
+        <ToastContainer/>
       </form>
     </div>
   );

@@ -2,8 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 const Home = () => {
   return (
-    <div className="flex px-5 flex-col items-center justify-center min-h-screen">
-      <div className=" border shadow-2xl shadow-gray-90000 rounded-lg p-8 max-w-md w-full">
+    <div className="flex bg-gray-100 px-5 flex-col items-center justify-center min-h-screen">
+      <div className=" border shadow-lg shadow-gray-600 rounded-lg p-8 max-w-md w-full">
         <h1 className="text-2xl font-bold text-gray-800 mb-4 text-center">
           Welcome to Employee Management
         </h1>

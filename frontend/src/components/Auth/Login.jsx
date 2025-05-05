@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { handleError, handleSuccess } from "../Pages/Toast";
 const Login = () => {
   const navigate = useNavigate();
@@ -20,10 +20,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     const url = import.meta.env.VITE_API_URL;
     e.preventDefault();
+    console.log("Enter")
     try {
       const response = await axios.post(`${url}admin/login`, formData);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("name", response.data.name);
+      localStorage.setItem("email", response.data.email);
       setSuccess(response.data.success);
       console.log(response.data.message);
       setFormData({
@@ -31,17 +33,19 @@ const Login = () => {
         password: "",
       });
       handleSuccess(response.data.message);
-      setIsLoggedIn(true);
       setTimeout(() => {
         navigate("/");
       }, 1000);
     } catch (error) {
-      handleError(error.response.data.message);
+      handleError(error.message);
+      console.log(error);
     }
+    console.log("okay")
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200">
+      <p>{localStorage.getItem("name")}</p>
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
         <form className="space-y-4" onSubmit={handleSubmit}>

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { handleError, handleSuccess } from "./Toast";
+import { ToastContainer } from "react-toastify";
 const Add_new_employee = () => {
   const [formData, setFormData] = useState({
     employeeId: "",
@@ -11,22 +13,22 @@ const Add_new_employee = () => {
     department: "",
     salary: "",
   });
-  const [error, setError] = useState();
   const url = import.meta.env.VITE_API_URL;
-
-  console.log(url);
+  const token = localStorage.getItem("token");
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
     axios
-      .post(`${url}addemployee`, formData)
+      .post(`${url}addemployee`, formData,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
-        console.log("Employee added successfully:", response.data);
-        // Optionally, you can reset the form or redirect the user
+
         setFormData({
           employeeId: "",
           name: "",
@@ -37,28 +39,23 @@ const Add_new_employee = () => {
           department: "",
           salary: "",
         });
+        handleSuccess("Employee Added Successfully!");
       })
       .catch((err) => {
-        console.error("Error adding employee:", err)
-        setError(err.response.data.message);
-        console.log(error)
+        handleError(err.response.data.message);
       });
+      
   };
 
   return (
     <div className="md:max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md  my-5">
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-          <strong className="font-bold">Error!</strong>
-          <span className="block sm:inline">{error}</span>
-          <span className="block sm:inline">{error.message}</span>
-
-        </div>
-      )}
       <h2 className="text-2xl font-bold mb-6 text-gray-800">
         Add New Employee
       </h2>{" "}
-      <form onSubmit={handleSubmit} className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
+      <form
+        onSubmit={handleSubmit}
+        className="grid sm:grid-cols-1 md:grid-cols-2 gap-6"
+      >
         <div>
           <label>Employee ID:</label>
           <input
@@ -111,23 +108,52 @@ const Add_new_employee = () => {
         </div>
         <div>
           <label>Position:</label>
-          <input
-            type="text"
+          <select
             name="position"
             value={formData.position}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          >
+            <option value="">Select Position</option>
+            <option value="Manager">Manager</option>
+            <option value="Team Lead">Team Lead</option>
+            <option value="Software Engineer">Software Engineer</option>
+            <option value="Senior Developer">Senior Developer</option>
+            <option value="Junior Developer">Junior Developer</option>
+            <option value="Intern">Intern</option>
+            <option value="Product Owner">Product Owner</option>
+            <option value="Scrum Master">Scrum Master</option>
+            <option value="Technical Architect">Technical Architect</option>
+            <option value="Business Analyst">Business Analyst</option>
+            <option value="QA Engineer">QA Engineer</option>
+            <option value="DevOps Engineer">DevOps Engineer</option>
+            <option value="UI/UX Designer">UI/UX Designer</option>
+            <option value="Data Scientist">Data Scientist</option>
+            <option value="Cybersecurity Specialist">Cybersecurity Specialist</option>
+            <option value="Cloud Engineer">Cloud Engineer</option>
+          </select>
         </div>
         <div>
           <label>Department:</label>
-          <input
-            type="text"
+          <select
             name="department"
             value={formData.department}
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          >
+            <option value="">Select Department</option>
+            <option value="HR">HR</option>
+            <option value="IT Support">IT Support</option>
+            <option value="Development">Development</option>
+            <option value="Quality Assurance">Quality Assurance</option>
+            <option value="DevOps">DevOps</option>
+            <option value="UI/UX Design">UI/UX Design</option>
+            <option value="Data Science">Data Science</option>
+            <option value="Cybersecurity">Cybersecurity</option>
+            <option value="Cloud Engineering">Cloud Engineering</option>
+            <option value="Product Management">Product Management</option>
+            <option value="Business Analysis">Business Analysis</option>
+          </select>
         </div>
         <div>
           <label>Salary:</label>
@@ -146,6 +172,7 @@ const Add_new_employee = () => {
           Add Employee
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

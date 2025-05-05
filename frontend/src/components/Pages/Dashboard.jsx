@@ -11,7 +11,7 @@ const Dashboard = () => {
         </div>
         <div className="bg-white shadow-md rounded-lg p-4">
           <h2 className="text-xl font-semibold text-gray-700">Departments</h2>
-          <p className="text-2xl font-bold text-green-500 mt-2">8</p>
+          <p className="text-2xl font-bold text-green-500 mt-2">11</p>
         </div>
         <div className="bg-white shadow-md rounded-lg p-4">
           <h2 className="text-xl font-semibold text-gray-700">Projects</h2>
