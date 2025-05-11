@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { CiLogin } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
+import Mycontext from "../../Context/Context";
 const Header = () => {
   const username = localStorage.getItem("name");
+  const { user, setUser } = useContext(Mycontext);
+  useEffect(() => {
+    setUser(username);
+  }, [username]);
   return (
     <>
       <header className="flex justify-between items-center py-6 px-8 bg-blue-600 text-white shadow-md">
-        <NavLink to="/" className="text-3xl font-bold">
+        <NavLink to="/" className="text-3xl font-bold font-[Open_Sans]">
           Employee Management
         </NavLink>
-        <nav className="hidden md:block">
+        <nav className="hidden md:block font-semibold">
           <ul className="flex items-center gap-8 text-lg">
             <li>
               <NavLink
@@ -61,7 +66,7 @@ const Header = () => {
               </NavLink>
             </li>
             <li>
-              {username ? (
+              {user ? (
                 <NavLink
                   to="/profile"
                   className={({ isActive }) =>
@@ -70,7 +75,10 @@ const Header = () => {
                       : "hover:text-yellow-300"
                   }
                 >
-                  <CgProfile size={30} className="" />
+                  <div className="flex flex-col items-center justify-center">
+                    <CgProfile size={30} className="" />
+                    <p className="text-sm">{user}</p>
+                  </div>
                 </NavLink>
               ) : (
                 <NavLink
@@ -80,7 +88,6 @@ const Header = () => {
                       ? "text-yellow-300 font-semibold "
                       : "hover:text-yellow-300"
                   }
-                  
                 >
                   login <CiLogin size={30} className="inline" />
                 </NavLink>

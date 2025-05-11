@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { handleSuccess } from "../Pages/Toast";
 import { ToastContainer } from "react-toastify";
+import Mycontext from "../../Context/Context";
 const Profile = ({state}) => {
   const navigate = useNavigate();
+  const {setUser}= useContext(Mycontext)
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("name");
     localStorage.removeItem("email");
+    setUser("");
     handleSuccess("Logout Successfully");
     setTimeout(() => {
       navigate("/login");

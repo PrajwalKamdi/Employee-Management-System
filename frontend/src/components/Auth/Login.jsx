@@ -1,9 +1,11 @@
 import axios from "axios";
-import React from "react";
+import React, { use, useContext, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { handleError, handleSuccess } from "../Pages/Toast";
+import Mycontext from "../../Context/Context";
 const Login = () => {
+  const {setUser} = useContext(Mycontext)
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
@@ -27,6 +29,7 @@ const Login = () => {
       localStorage.setItem("name", response.data.name);
       localStorage.setItem("email", response.data.email);
       setSuccess(response.data.success);
+      setUser(localStorage.getItem("name"));
       console.log(response.data.message);
       setFormData({
         email: "",
@@ -45,7 +48,6 @@ const Login = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200">
-      <p>{localStorage.getItem("name")}</p>
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-800">Login</h2>
         <form className="space-y-4" onSubmit={handleSubmit}>
