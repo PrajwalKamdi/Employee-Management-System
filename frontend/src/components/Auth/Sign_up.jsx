@@ -21,6 +21,7 @@ const Sign_up = () => {
     console.log("Form Data Submitted:", formData);
     const url = import.meta.env.VITE_API_URL;
     try {
+      console.log("First")
       const response = await axios.post(`${url}admin`, formData);
       console.log("Admin added successfully:", response.data);
       console.log("Admin added successfully:", response.data.message);
