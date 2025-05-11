@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Admin from "../model/Admin.js";
 export const adminController = async (req, res) => {
@@ -24,7 +24,7 @@ export const adminLoginController = async (req, res) => {
     if (!existingAdmin) {
       return res.status(404).json({ message: "Admin Not Found" });
     }
-    const isPasswordValid = bcrypt.compareSync(password, existingAdmin[0].password);
+    const isPasswordValid = bcryptjs.compareSync(password, existingAdmin[0].password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid Credentials" });
     }

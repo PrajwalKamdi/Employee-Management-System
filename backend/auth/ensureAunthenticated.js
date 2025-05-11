@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 export const ensureAuthenticated = (req, res, next) => {
   const auth = req.headers['authorization'];
   if (!auth) {
