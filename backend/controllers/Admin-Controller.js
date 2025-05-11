@@ -6,7 +6,7 @@ export const adminController = async (req, res) => {
   const newAdmin = new Admin({
     name,
     email,
-    password: bcrypt.hashSync(password, 10), // Hash the password before saving
+    password: bcryptjs.hashSync(password, 10), // Hash the password before saving
   });
   try {
     const savedAdmin = await newAdmin.save();
