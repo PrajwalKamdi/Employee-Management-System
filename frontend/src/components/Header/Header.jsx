@@ -11,10 +11,43 @@ const Header = () => {
   }, [username]);
   return (
     <>
-      <header className="flex justify-between items-center py-6 px-8 bg-blue-600 text-white shadow-md">
+      <header className="flex justify-between items-center py-6 px-8 bg-blue-600 text-white shadow-md ">
         <NavLink to="/" className="text-3xl font-bold font-[Open_Sans]">
           Employee Management
         </NavLink>
+        <nav className="md:hidden">
+          <ul>
+            <li>
+              {user ? (
+                <NavLink
+                  to="/profile"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-yellow-300 font-semibold "
+                      : "hover:text-yellow-300"
+                  }
+                >
+                  <div className="flex flex-col items-center justify-center">
+                    {/* <CgProfile size={30} className="" /> */}
+                    <p className="text-sm">{user}</p>
+                  </div>
+                </NavLink>
+              ) : (
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-yellow-300 font-semibold"
+                      : "hover:text-yellow-300"
+                  }
+                >
+                  {/* login <CiLogin size={20} className="inline" /> */}
+                  Login
+                </NavLink>
+              )}
+            </li>
+          </ul>
+        </nav>
         <nav className="hidden md:block font-semibold">
           <ul className="flex items-center gap-8 text-lg">
             <li>
@@ -77,7 +110,7 @@ const Header = () => {
                 >
                   <div className="flex flex-col items-center justify-center">
                     <CgProfile size={30} className="" />
-                    <p className="text-sm">{user}</p>
+                    <p className="">{user}</p>
                   </div>
                 </NavLink>
               ) : (
@@ -89,7 +122,7 @@ const Header = () => {
                       : "hover:text-yellow-300"
                   }
                 >
-                  login <CiLogin size={30} className="inline" />
+                  Login <CiLogin size={30} className="inline" />
                 </NavLink>
               )}
             </li>

@@ -19,7 +19,7 @@ const Profile = ({state}) => {
   }
  
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex md:flex-col items-center justify-center min-h-screen bg-gray-100 p-2">
       <div className="bg-white shadow-md rounded-lg p-6 w-96">
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-4">
           Profile
