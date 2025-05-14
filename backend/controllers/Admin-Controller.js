@@ -28,7 +28,7 @@ export const adminLoginController = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid Credentials" });
     }
-    const token = jwt.sign({ email: existingAdmin[0].email, id: existingAdmin[0]._id }, process.env.JWT_SECRET, { expiresIn: "1h" })
+    const token = jwt.sign({ email: existingAdmin[0].email, id: existingAdmin[0]._id }, process.env.JWT_SECRET, { expiresIn: "7d" })
     return res.status(200).json({ message: "Login Successful!", token, name: existingAdmin[0].name, email: existingAdmin[0].email });
   }
   catch (error) {
